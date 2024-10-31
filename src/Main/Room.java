@@ -14,12 +14,13 @@ public class Room {
 	private HashMap <String, Items> item = new HashMap <String, Items>();
 	
 	
-	public HashMap<String, Items> getItems(String name) { //Remember. you can put multiple returned items in a get function.
-		return item;
+	public Items getItem(String name) { //Remember. you can put multiple returned items in a get function.
+		return item.get(name);
 	}
 	
-	public void addItems(HashMap<String, Items> I) { //edit this and getItems, you already finished removeItem
-		item = I;
+	public void addItems(Items I) { //edit this and getItems, you already finished removeItem
+		I.getName();
+		item.put(description, I);
 	}
 	
 	public Room(String desc) {
