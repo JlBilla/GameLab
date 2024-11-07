@@ -8,6 +8,10 @@ public class World {
 		Room wardrobe = new Room("You are in the walk-in wardrobe");
 		Items clothing = new Items("coat", "This is your worn coat");
 		
+		Safe safe = new Safe("safe", "It's an impressive safe!");
+		Combination chest = new Combination("chest key", "This is the key to your chest");
+		Items ring = new Items("Diamond ring", "This is your prized and cherished Diamond ring, it fills you with a soothing feeling");
+		
 		Room bathroom = new Room("You are in the bathroom");
 		
 		Room bedroom = new Room("You are in your bedroom");
@@ -22,6 +26,9 @@ public class World {
 		
 		wardrobe.addExit('n',bedroom);		
 		wardrobe.addItems(clothing);
+		wardrobe.addCombination(chest);
+		wardrobe.addItems(ring);
+		wardrobe.addItems(safe);
 		
 		hallway.addExit('s', bedroom);		
 		hallway.addExit('e', storage);

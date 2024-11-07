@@ -1,4 +1,4 @@
-package Main;
+ package Main;
 import java.util.HashMap;
 
 public class Room {
@@ -70,6 +70,11 @@ public class Room {
 			return down;
 		else
 			return null;
+		
+	}
+
+	public void addCombination(Combination locker) { //ask about this
+		// TODO Auto-generated method stub
 		
 	}	
 	

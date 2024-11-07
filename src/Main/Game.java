@@ -21,6 +21,29 @@ public class Game {
 
 	private static ArrayList <Items> inventory = new ArrayList <Items>();
 	
+	private static Room currentRoom = World.buildWorld();
+	
+	public static void print(Object obj) {
+		System.out.println(obj.toString());
+		}
+	
+	public static Room getcurrentRoom() {
+			return currentRoom;
+	}
+	
+	//for the Items class as I in the inventory
+	//if the name of the item in the inventory
+	//is the name pulled from the inventory?
+	//return the Items class
+	public static Items returnItem(String name) {
+		for(Items I: inventory) {	
+			if (name.equals(I.getName())){
+			return I;
+			}
+		}
+		return null;
+		
+	}
 	
 	public static void runGame() {
 		Room currentRoom = World.buildWorld();
@@ -48,7 +71,7 @@ public class Game {
 				case "take":
 					Items item = currentRoom.getItem(words[1]);
 					System.out.println("take" + item);
-					System.out.println("You wasnt to take the"+words[1]);
+					System.out.println("You went to take the" + words[1]);
 					if (item == null) {
 						System.out.println("There's nothing to take.");
 					}
@@ -67,12 +90,28 @@ public class Game {
 						//System.out.println(description);
 					}
 					break;
+				case "use":
+					Items item = currentRoom.getItem(words[1]);
+					System.out.println("use" + item);
+					System.out.println("You used the" + words[1]);
+					if (item == null) {
+						System.out.println("There's nothing to use");
+					}
+					break;
+				case "open":
+					Items item = currentRoom.getItem(words[1]);
+					System.out.println("open" + item);
+					System.out.println("You went to open the" + words[1]);
+					if (item == null) {
+						System.out.println("There's nothing to open.");
+					}
 				case "look":
 					Items object = currentRoom.getItem(words[1]);
 					if (object == null) {
 						System.out.println("There's nothing to look at.");
 					}
 					else {
+						System.out.println();
 						System.out.println(object.getDesc());
 					}
 				default:
