@@ -1,6 +1,9 @@
 package Main;
 
+import java.util.HashMap;
+
 import java.util.ArrayList;
+
 import java.util.Scanner;
 
 public class Game {
@@ -21,7 +24,9 @@ public class Game {
 
 	private static ArrayList <Items> inventory = new ArrayList <Items>();
 	
-	private static Room currentRoom = World.buildWorld();
+	private static HashMap <String, Room> keys = new HashMap <String, Room>(); //continue from here later
+	
+	private static Room currentRoom; 
 	
 	public static void print(Object obj) {
 		System.out.println(obj.toString());
@@ -41,12 +46,13 @@ public class Game {
 			return I;
 			}
 		}
-		return null;
-		
+		return null;	
 	}
 	
+	
+	
 	public static void runGame() {
-		Room currentRoom = World.buildWorld();
+		currentRoom = World.buildWorld();
 		Scanner input = new Scanner(System.in);
 		
 		String command;
@@ -55,7 +61,7 @@ public class Game {
 			System.out.print("What do you want to do? ");
 			command = input.nextLine();
 			String[] words = command.split(" ");
-			
+			Items item;
 			switch(words[0]) {
 				case "n":
 				case "s":
@@ -63,13 +69,20 @@ public class Game {
 				case "w":
 				case "u":
 				case "d":
-				currentRoom = currentRoom.getExit(command.charAt(0));
+				Room targetRoom = currentRoom.getExit(command.charAt(0));
+				if (targetRoom.getlock()) {
+					System.out.println("You can't enter that locked room");
+				}
+				else {
+					System.out.println("You enter your target room");
+					currentRoom = targetRoom;
+				}
 					break;
 				case "x":
 					System.out.println("See ya! hope you had fun.");
 					break;
 				case "take":
-					Items item = currentRoom.getItem(words[1]);
+					item = currentRoom.getItem(words[1]);
 					System.out.println("take" + item);
 					System.out.println("You went to take the" + words[1]);
 					if (item == null) {
@@ -91,15 +104,19 @@ public class Game {
 					}
 					break;
 				case "use":
-					Items item = currentRoom.getItem(words[1]);
+					//item = currentRoom.getItem(words[1]);
+					item = returnItem(words[1]);
 					System.out.println("use" + item);
 					System.out.println("You used the" + words[1]);
 					if (item == null) {
 						System.out.println("There's nothing to use");
 					}
+					else {
+						item.use();
+					}
 					break;
 				case "open":
-					Items item = currentRoom.getItem(words[1]);
+					item = currentRoom.getItem(words[1]);
 					System.out.println("open" + item);
 					System.out.println("You went to open the" + words[1]);
 					if (item == null) {
@@ -114,6 +131,8 @@ public class Game {
 						System.out.println();
 						System.out.println(object.getDesc());
 					}
+					break;
+					
 				default:
 					System.out.println("Sorry, I don't know what you mean by that");
 			}

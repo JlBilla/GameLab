@@ -9,9 +9,16 @@ public class Room {
 	private Room west;
 	private Room up;
 	private Room down;
-	
+	private boolean lock;
+	private String name;
 
+	
 	private HashMap <String, Items> item = new HashMap <String, Items>();
+	
+	public Room(String desc, String n) { //constructor
+		description = desc;
+		name = n;
+	}
 	
 	
 	public Items getItem(String name) { //Remember. you can put multiple returned items in a get function.
@@ -19,13 +26,9 @@ public class Room {
 	}
 	
 	public void addItems(Items I) { //edit this and getItems, you already finished removeItem
-		I.getName();
-		item.put(description, I);
+		item.put(I.getName(), I);
 	}
 	
-	public Room(String desc) {
-		description = desc;
-	}
 
 	public String toString() {
 		return description;
@@ -33,6 +36,22 @@ public class Room {
 
 	public void removeItem() {
 		item = null;
+	}
+
+	public boolean getlock() {	//This 
+		return lock;
+	}
+	
+	public void setlock(boolean l) {
+		lock = l;
+	}
+		
+	public String getname() {
+		return name;
+	}
+	
+	public void setname(String n) {
+		name = n;
 	}
 	
 	public void addExit(char dir, Room r) {
