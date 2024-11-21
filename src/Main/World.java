@@ -20,6 +20,7 @@ public class World {
 		Items ring = new Items("Diamond ring", "This is your prized and cherished Diamond ring, it fills you with a soothing feeling");
 		
 		Room bathroom = new Room("You are in the bathroom", "bathroom");
+		Items coin = new Items("Penny", "Hey! a lucky penny! guess your inquisitive mind payed off.");
 		
 		Room bedroom = new Room("You are in your bedroom", "bedroom");
 		Items key = new Items("Door key", "This is a key to the front door");
@@ -50,7 +51,7 @@ public class World {
 		mainhall.addItems(ckey);
 		
 		bathroom.addExit('e',hallway);
-		
+		bathroom.addItems(coin);
 		
 		
 		return bedroom;

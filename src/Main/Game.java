@@ -2,6 +2,8 @@ package Main;
 
 import java.util.HashMap;
 
+import java.io.*;
+
 import java.util.ArrayList;
 
 import java.util.Scanner;
@@ -24,7 +26,9 @@ public class Game {
 
 	private static ArrayList <Items> inventory = new ArrayList <Items>();
 	
-	private static HashMap <String, Room> keys = new HashMap <String, Room>(); //continue from here later
+	public static HashMap <String, Room> rooms = new HashMap <String, Room>(); //continue from here later
+	
+	public static HashMap <String, String> descript = new HashMap <String, String>();
 	
 	private static Room currentRoom; 
 	
@@ -49,7 +53,60 @@ public class Game {
 		return null;	
 	}
 	
+	public static void saveList(String fileName) {
+		File f = new File(fileName);
+		try {
+			FileOutputStream fos = new FileOutputStream(f);
+			ObjectOutputStream stream = new ObjectOutputStream(fos);
+			stream.writeObject(currentRoom);
+			stream.writeObject(inventory);
+			stream.writeObject(rooms);
+			stream.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("File "+fileName+" not found.");
+			System.exit(0);
+		} catch (IOException ex) {
+			System.out.println("Bummers, man.");
+			}
+		}
 	
+	public static void loadList(String fileName) {
+		File f = new File(fileName);
+		try {
+			FileInputStream fos = new FileInputStream(f);
+			ObjectInputStream stream = new ObjectInputStream(fos);
+			currentRoom = (Room) stream.readObject();
+			inventory = (ArrayList) stream.readObject();
+			rooms = (HashMap) stream.readObject();
+			stream.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("File "+fileName+" not found.");
+			System.exit(0);
+		} catch (IOException ex) {
+			System.out.println("Bummers, man.");
+		} catch (ClassNotFoundException ex) {
+			System.out.println("Something went horribly wrong.");
+			}
+		}
+	
+
+	public class ReadFileDemo {
+		public static void main(String[] args) {
+				try {
+					Scanner input = new Scanner(new File("room description.txt"));
+					while(input.hasNextLine()) {
+							Thread.sleep(1000); // sleep for 1 second
+							String line = input.nextLine();
+							File.put.(String, line);
+					}
+					input.close();
+				} catch (FileNotFoundException e) {
+					System.out.println("File not found!!!");
+				} catch (InterruptedException ex) {
+					System.out.println("Bummer.");
+				}
+		}
+	}
 	
 	public static void runGame() {
 		currentRoom = World.buildWorld();
@@ -132,6 +189,12 @@ public class Game {
 						System.out.println(object.getDesc());
 					}
 					break;
+				case "save":
+					saveList("savedata");
+					break;
+				case "load":
+					loadList("savedata");
+					
 					
 				default:
 					System.out.println("Sorry, I don't know what you mean by that");

@@ -1,12 +1,16 @@
 package Main;
+
+import java.io.Serializable;
+
 //items for now will be basic, glasses, gloves, keys, whatnot.
-public class Items {
+public class Items implements Serializable{
 	private String description;
 	private String names;
 
 	public Items(String name, String desc){
 		description = desc;
 		names = name;
+
 	}
 	public String toString() {
 		return  names;

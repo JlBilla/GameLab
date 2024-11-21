@@ -1,7 +1,8 @@
  package Main;
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Room {
+public class Room implements Serializable {
 	private String description;
 	private Room north;
 	private Room south;
@@ -18,6 +19,7 @@ public class Room {
 	public Room(String desc, String n) { //constructor
 		description = desc;
 		name = n;
+		Game.rooms.put(name, this);
 	}
 	
 	
