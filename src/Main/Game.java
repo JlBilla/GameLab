@@ -95,15 +95,13 @@ public class Game {
 				try {
 					Scanner input = new Scanner(new File("room description.txt"));
 					while(input.hasNextLine()) {
-							Thread.sleep(1000); // sleep for 1 second
 							String line = input.nextLine();
-							File.put.(String, line);
+							String linetwo = input.nextLine();
+							descript.put(line, linetwo); //ask for help with proper "put" formating
 					}
 					input.close();
 				} catch (FileNotFoundException e) {
 					System.out.println("File not found!!!");
-				} catch (InterruptedException ex) {
-					System.out.println("Bummer.");
 				}
 		}
 	}

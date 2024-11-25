@@ -3,7 +3,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 public class Room implements Serializable {
-	private String description;
 	private Room north;
 	private Room south;
 	private Room east;
@@ -16,8 +15,7 @@ public class Room implements Serializable {
 	
 	private HashMap <String, Items> item = new HashMap <String, Items>();
 	
-	public Room(String desc, String n) { //constructor
-		description = desc;
+	public Room(String n) { //constructor
 		name = n;
 		Game.rooms.put(name, this);
 	}
@@ -33,7 +31,7 @@ public class Room implements Serializable {
 	
 
 	public String toString() {
-		return description;
+		Game.descript.get(); //remember to ask about this for next time
 	}
 
 	public void removeItem() {
