@@ -21,9 +21,15 @@ public class Game {
 	//item represents a specific item within the items array
 	//null means the absence of, so for if item == null it means (if there is no item) 
 	public static void main(String[] args) {
-		runGame();
+		fileread();
+		currentRoom = World.buildWorld();
+		gui = new Gameui();
+		print(currentRoom);
+		
 	}
 
+	private static Gameui gui;
+	
 	private static ArrayList <Items> inventory = new ArrayList <Items>();
 	
 	public static HashMap <String, Room> rooms = new HashMap <String, Room>(); //continue from here later
@@ -33,7 +39,7 @@ public class Game {
 	private static Room currentRoom; 
 	
 	public static void print(Object obj) {
-		System.out.println(obj.toString());
+		gui.textarea.append(obj.toString()+"\n");
 		}
 	
 	public static Room getcurrentRoom() {
@@ -53,6 +59,92 @@ public class Game {
 		return null;	
 	}
 	
+	public static void processCommand(String command) {
+		String[] words = command.split(" ");
+		Items item;
+		switch(words[0]) {
+			case "n":
+			case "s":
+			case "e":
+			case "w":
+			case "u":
+			case "d":
+			Room targetRoom = currentRoom.getExit(command.charAt(0));
+			if (targetRoom.getlock()) {
+				Game.print("You can't enter that locked room");
+			}
+			else {
+				Game.print("You enter your target room");
+				currentRoom = targetRoom;
+				print(currentRoom);
+			}
+				break;
+			case "x":
+				Game.print("See ya! hope you had fun.");
+				break;
+			case "take":
+				item = currentRoom.getItem(words[1]);
+				Game.print("take" + item);
+				Game.print("You went to take the" + words[1]);
+				if (item == null) {
+					Game.print("There's nothing to take.");
+				}
+				else {
+					currentRoom.removeItem();
+					inventory.add(item);
+					Game.print("You pick up the "+item.getName());
+				}
+				break;
+			case "i":
+				Game.print("You are carrying:");
+				for (Items i: inventory) {
+					Game.print(i);
+					Game.print("");
+					//Items item = inventory.getItems();
+					//Game.print(description);
+				}
+				break;
+			case "use":
+				//item = currentRoom.getItem(words[1]);
+				item = returnItem(words[1]);
+				Game.print("use" + item);
+				Game.print("You used the" + words[1]);
+				if (item == null) {
+					Game.print("There's nothing to use");
+				}
+				else {
+					item.use();
+				}
+				break;
+			case "open":
+				item = currentRoom.getItem(words[1]);
+				Game.print("open" + item);
+				Game.print("You went to open the" + words[1]);
+				if (item == null) {
+					Game.print("There's nothing to open.");
+				}
+			case "look":
+				Items object = currentRoom.getItem(words[1]);
+				if (object == null) {
+					Game.print("There's nothing to look at.");
+				}
+				else {
+					Game.print("");
+					Game.print(object.getDesc());
+				}
+				break;
+			case "save":
+				saveList("savedata");
+				break;
+			case "load":
+				loadList("savedata");
+				
+				
+			default:
+				Game.print("Sorry, I don't know what you mean by that");
+		}
+	}
+	
 	public static void saveList(String fileName) {
 		File f = new File(fileName);
 		try {
@@ -63,10 +155,10 @@ public class Game {
 			stream.writeObject(rooms);
 			stream.close();
 		} catch (FileNotFoundException e) {
-			System.out.println("File "+fileName+" not found.");
+			Game.print("File "+fileName+" not found.");
 			System.exit(0);
 		} catch (IOException ex) {
-			System.out.println("Bummers, man.");
+			Game.print("Bummers, man.");
 			}
 		}
 	
@@ -80,31 +172,29 @@ public class Game {
 			rooms = (HashMap) stream.readObject();
 			stream.close();
 		} catch (FileNotFoundException e) {
-			System.out.println("File "+fileName+" not found.");
+			Game.print("File "+fileName+" not found.");
 			System.exit(0);
 		} catch (IOException ex) {
-			System.out.println("Bummers, man.");
+			Game.print("Bummers, man.");
 		} catch (ClassNotFoundException ex) {
-			System.out.println("Something went horribly wrong.");
+			Game.print("Something went horribly wrong.");
 			}
 		}
 	
 
-	public class ReadFileDemo {
-		public static void main(String[] args) {
+		public static void fileread() {
 				try {
-					Scanner input = new Scanner(new File("room description.txt"));
+					Scanner input = new Scanner(new File("room descriptions"));
 					while(input.hasNextLine()) {
 							String line = input.nextLine();
 							String linetwo = input.nextLine();
-							descript.put(line, linetwo); //ask for help with proper "put" formating
+							descript.put(line, linetwo); 
 					}
 					input.close();
 				} catch (FileNotFoundException e) {
-					System.out.println("File not found!!!");
+					Game.print("File not found!!!");
 				}
 		}
-	}
 	
 	public static void runGame() {
 		currentRoom = World.buildWorld();
@@ -112,10 +202,10 @@ public class Game {
 		
 		String command;
 		do {
-			System.out.println(currentRoom);
+			Game.print(currentRoom);
 			System.out.print("What do you want to do? ");
 			command = input.nextLine();
-			String[] words = command.split(" ");
+			String[] words = command.split(" "); //switch statement begins here
 			Items item;
 			switch(words[0]) {
 				case "n":
@@ -126,45 +216,45 @@ public class Game {
 				case "d":
 				Room targetRoom = currentRoom.getExit(command.charAt(0));
 				if (targetRoom.getlock()) {
-					System.out.println("You can't enter that locked room");
+					Game.print("You can't enter that locked room");
 				}
 				else {
-					System.out.println("You enter your target room");
+					Game.print("You enter your target room");
 					currentRoom = targetRoom;
 				}
 					break;
 				case "x":
-					System.out.println("See ya! hope you had fun.");
+					Game.print("See ya! hope you had fun.");
 					break;
 				case "take":
 					item = currentRoom.getItem(words[1]);
-					System.out.println("take" + item);
-					System.out.println("You went to take the" + words[1]);
+					Game.print("take" + item);
+					Game.print("You went to take the" + words[1]);
 					if (item == null) {
-						System.out.println("There's nothing to take.");
+						Game.print("There's nothing to take.");
 					}
 					else {
 						currentRoom.removeItem();
 						inventory.add(item);
-						System.out.println("You pick up the "+item.getName());
+						Game.print("You pick up the "+item.getName());
 					}
 					break;
 				case "i":
-					System.out.println("You are carrying:");
+					Game.print("You are carrying:");
 					for (Items i: inventory) {
-						System.out.println(i);
-					System.out.println();
+						Game.print(i);
+					Game.print("");
 						//Items item = inventory.getItems();
-						//System.out.println(description);
+						//Game.print(description);
 					}
 					break;
 				case "use":
 					//item = currentRoom.getItem(words[1]);
 					item = returnItem(words[1]);
-					System.out.println("use" + item);
-					System.out.println("You used the" + words[1]);
+					Game.print("use" + item);
+					Game.print("You used the" + words[1]);
 					if (item == null) {
-						System.out.println("There's nothing to use");
+						Game.print("There's nothing to use");
 					}
 					else {
 						item.use();
@@ -172,19 +262,19 @@ public class Game {
 					break;
 				case "open":
 					item = currentRoom.getItem(words[1]);
-					System.out.println("open" + item);
-					System.out.println("You went to open the" + words[1]);
+					Game.print("open" + item);
+					Game.print("You went to open the" + words[1]);
 					if (item == null) {
-						System.out.println("There's nothing to open.");
+						Game.print("There's nothing to open.");
 					}
 				case "look":
 					Items object = currentRoom.getItem(words[1]);
 					if (object == null) {
-						System.out.println("There's nothing to look at.");
+						Game.print("There's nothing to look at.");
 					}
 					else {
-						System.out.println();
-						System.out.println(object.getDesc());
+						Game.print("");
+						Game.print(object.getDesc());
 					}
 					break;
 				case "save":
@@ -195,8 +285,8 @@ public class Game {
 					
 					
 				default:
-					System.out.println("Sorry, I don't know what you mean by that");
-			}
+					Game.print("Sorry, I don't know what you mean by that");
+			} //switch statement ends here
 			
 		} while(!command.equals("x"));
 	

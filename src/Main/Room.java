@@ -11,7 +11,8 @@ public class Room implements Serializable {
 	private Room down;
 	private boolean lock;
 	private String name;
-
+	private String desc_lable;
+	
 	
 	private HashMap <String, Items> item = new HashMap <String, Items>();
 	
@@ -31,9 +32,9 @@ public class Room implements Serializable {
 	
 
 	public String toString() {
-		Game.descript.get(); //remember to ask about this for next time
+		return Game.descript.get(name); //remember to ask about this for next time
 	}
-
+	
 	public void removeItem() {
 		item = null;
 	}

@@ -6,27 +6,27 @@ package Main;
 
 public class World {
 	public static Room buildWorld() {
-		Room hallway = new Room("You are in the hallway.", "hallway");
+		Room hallway = new Room("hallway");
 		
-		Room storage = new Room("You are in the storage room.", "storage");
+		Room storage = new Room("storage");
 		Items storagekey = new StorageKey("StorageKey", "A key to open the storage room");
 		Items briefcase = new Items("briefcase", "This is your work briefcase");
 		Items theOrb = new Items("theOrb", "it's a perfectly spherical and shiny ball...it was already here when you moved in"); 
-		Room wardrobe = new Room("You are in the walk-in wardrobe", "wardrobe");
+		Room wardrobe = new Room("wardrobe");
 		Items clothing = new Items("coat", "This is your worn coat");
 		
 		Safe safe = new Safe("safe", "It's an impressive safe!");
 		Combination chest = new Combination("chest key", "This is the key to your chest");
-		Items ring = new Items("Diamond ring", "This is your prized and cherished Diamond ring, it fills you with a soothing feeling");
+		Items ring = new Items("diamond-ring", "This is your prized and cherished Diamond ring, it fills you with a soothing feeling");
 		
-		Room bathroom = new Room("You are in the bathroom", "bathroom");
-		Items coin = new Items("Penny", "Hey! a lucky penny! guess your inquisitive mind payed off.");
+		Room bathroom = new Room("bathroom");
+		Items coin = new Items("penny", "Hey! a lucky penny! guess your inquisitive mind payed off.");
 		
-		Room bedroom = new Room("You are in your bedroom", "bedroom");
-		Items key = new Items("Door key", "This is a key to the front door");
+		Room bedroom = new Room("bedroom");
+		Items key = new Items("door-key", "This is a key to the front door");
 		
-		Room mainhall = new Room("You are in the main floor hallway", "main hall");
-		Items ckey = new Items("Car key", "This is the key to your car");
+		Room mainhall = new Room("main hall");
+		Items ckey = new Items("car-key", "This is the key to your car");
 			
 		bedroom.addExit('n', hallway);
 		bedroom.addExit('s', wardrobe);
